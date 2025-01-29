@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class AlienCollisionDetector : MonoBehaviour
 {
-    private void Quit()
-    {
-        Application.Quit();
-
-    }
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.name == "AlienContainer")

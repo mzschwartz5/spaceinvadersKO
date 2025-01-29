@@ -9,6 +9,8 @@ public class ShipScript : MonoBehaviour
     private Transform bulletSpawnTransform;
     private Vector3 originalPos;
     private Vector3 cameraOriginalPos;
+    private AudioSource shootAudio;
+    private AudioSource dieAudio;
 
     void Start()
     {
@@ -16,6 +18,8 @@ public class ShipScript : MonoBehaviour
         bulletSpawnTransform = transform.Find("BulletSpawn");
         originalPos = transform.position;
         cameraOriginalPos = Camera.main.transform.position;
+        shootAudio = GetComponents<AudioSource>()[0];
+        dieAudio = GetComponents<AudioSource>()[1];
     }
 
     void Update()
@@ -25,7 +29,10 @@ public class ShipScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            bulletPool.FireBullet(bulletSpawnTransform.position);
+            if (bulletPool.FireBullet(bulletSpawnTransform.position))
+            {
+                shootAudio.Play();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
@@ -54,6 +61,7 @@ public class ShipScript : MonoBehaviour
         // Reinstantiate at starting position
         transform.position = originalPos;
         GameController.LoseLife();
+        dieAudio.Play();
     }
 
     void OnTriggerEnter(Collider collider)

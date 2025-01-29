@@ -14,6 +14,12 @@ public class GameController : MonoBehaviour
         DontDestroyOnLoad(gameObject); // Keep this object alive between scenes
     }
 
+    public static void Quit()
+    {
+        Application.Quit();
+
+    }
+
     public static void StartGame()
     {
         score = 0;

@@ -18,6 +18,7 @@ public class AlienScript : MonoBehaviour
     void Die()
     {
         Destroy(gameObject);
+        transform.parent.GetComponent<AlienSpawner>().playDeathSound();
 
         // Check if this is the last alien in the level (Destroy marks the object for deletion, but it is not immediately removed)
         if (transform.parent.childCount <= 1)

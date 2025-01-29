@@ -7,9 +7,11 @@ public class AlienSpawner : MonoBehaviour
     [SerializeField] int rows;
     [SerializeField] int columns;
     [SerializeField] GameObject alienPrefab;
+    AudioSource deathAudio;
 
     void Start()
     {
+        deathAudio = GetComponent<AudioSource>();
         BoxCollider boxCollider = GetComponent<BoxCollider>();
 
         Vector3 min = boxCollider.bounds.min;
@@ -25,5 +27,11 @@ public class AlienSpawner : MonoBehaviour
                 alien.transform.position = new Vector3(xPos, transform.position.y, zPos);
             }
         }
+    }
+
+    // Put on the spawner because once the aliens are destroyed on death, they can't play the sound.
+    public void playDeathSound()
+    {
+        deathAudio.Play();
     }
 }

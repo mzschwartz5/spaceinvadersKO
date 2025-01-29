@@ -23,13 +23,15 @@ public class BulletPool : MonoBehaviour
         }
     }
 
-    public void FireBullet(Vector3 spawnPos)
+    public bool FireBullet(Vector3 spawnPos)
     {
-        if (bulletPool.Count <= 0) return;
+        if (bulletPool.Count <= 0) return false;
 
         GameObject bullet = bulletPool.Dequeue();
         bullet.transform.position = spawnPos;
         bullet.SetActive(true);
+
+        return true;
     }
 
     private void ReturnBullet(GameObject bullet)
