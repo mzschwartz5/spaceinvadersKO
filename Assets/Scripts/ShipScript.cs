@@ -7,11 +7,13 @@ public class ShipScript : MonoBehaviour
     public float speed = 5f;
     private BulletPool bulletPool;
     private Transform bulletSpawnTransform;
+    private Vector3 originalPos;
 
     void Start()
     {
         bulletPool = GetComponentInChildren<BulletPool>();
         bulletSpawnTransform = transform.Find("BulletSpawn");
+        originalPos = transform.position;
     }
 
     void Update()
@@ -27,8 +29,9 @@ public class ShipScript : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
-        // TODO: Game over
+        // Reinstantiate at starting position
+        transform.position = originalPos;
+        GameController.LoseLife();
     }
 
     void OnTriggerEnter(Collider collider)

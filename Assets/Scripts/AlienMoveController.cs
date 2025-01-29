@@ -10,9 +10,14 @@ public class AlienMoveController : MonoBehaviour
     [SerializeField] float verticalMoveInterval;
     [SerializeField] int horizontalMoveSteps;
 
-    int currentHorizontalMoveStep = 0;
+    int currentHorizontalMoveStep;
     float horizDirection = 1;
     float lastMoveTime = 0;
+
+    void Start()
+    {
+        currentHorizontalMoveStep = horizontalMoveSteps / 2;
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,6 +34,7 @@ public class AlienMoveController : MonoBehaviour
             currentHorizontalMoveStep = 0;
             horizDirection *= -1;
             transform.position += new Vector3(0, 0, -verticalMoveInterval);
+            movePeriod = Mathf.Max(0.2f, movePeriod - 0.1f);
         }
         else
         {

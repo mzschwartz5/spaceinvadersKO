@@ -36,7 +36,7 @@ public class BulletScript : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         GameObject other = collider.gameObject;
-        if (other.CompareTag(sourceType.ToString()))
+        if (other.CompareTag(sourceType.ToString()) || other.CompareTag("Empty"))
         {
             return;
         }
