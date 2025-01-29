@@ -6,7 +6,7 @@ public class AlienCollisionDetector : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.name == "AlienContainer")
+        if (collider.gameObject.tag == "Alien")
         {
             GameController.GameOver();
         }
