@@ -18,6 +18,12 @@ public class AlienScript : MonoBehaviour
     void Die()
     {
         Destroy(gameObject);
+
+        // Check if this is the last alien in the level (Destroy marks the object for deletion, but it is not immediately removed)
+        if (transform.parent.childCount <= 1)
+        {
+            GameController.NextLevel();
+        }
     }
 
     void OnTriggerEnter(Collider collider)

@@ -44,4 +44,10 @@ public class GameController : MonoBehaviour
             GameOver();
         }
     }
+
+    public static void NextLevel()
+    {
+        level++;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LevelScene");
+    }
 }
