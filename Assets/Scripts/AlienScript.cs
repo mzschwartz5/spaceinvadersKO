@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AlienScript : MonoBehaviour
 {
+    public int pointValue;
     // Reference to bullet pool in parent object. Shared between all instances of AlienScript
     private BulletPool bulletPool;
     private Transform bulletSpawnTransform;
@@ -18,7 +19,8 @@ public class AlienScript : MonoBehaviour
     void Die()
     {
         Destroy(gameObject);
-        transform.parent.GetComponent<AlienSpawner>().playDeathSound();
+        transform.parent.GetComponent<AlienSpawner>().PlayDeathSound();
+        GameController.AddScore(pointValue);
 
         // Check if this is the last alien in the level (Destroy marks the object for deletion, but it is not immediately removed)
         if (transform.parent.childCount <= 1)

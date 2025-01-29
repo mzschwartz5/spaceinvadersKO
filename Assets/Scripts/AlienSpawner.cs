@@ -22,6 +22,7 @@ public class AlienSpawner : MonoBehaviour
             for (int j = 0; j < columns; j++)
             {
                 GameObject alien = Instantiate(alienPrefab, transform);
+                alien.GetComponent<AlienScript>().pointValue = 10 * (i + 1);
                 float xPos = Mathf.Lerp(min.x, max.x, (float)j / (columns - 1));
                 float zPos = Mathf.Lerp(min.z, max.z, (float)i / (rows - 1));
                 alien.transform.position = new Vector3(xPos, transform.position.y, zPos);
@@ -30,7 +31,7 @@ public class AlienSpawner : MonoBehaviour
     }
 
     // Put on the spawner because once the aliens are destroyed on death, they can't play the sound.
-    public void playDeathSound()
+    public void PlayDeathSound()
     {
         deathAudio.Play();
     }

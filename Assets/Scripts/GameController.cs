@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private static int score;
-    private static int lives = 3;
-    private static int highscore = 0;
-    private static int level;
+    public static int score;
+    public static int lives = 3;
+    public static int highscore = 0;
+    public static int level;
+
+    public delegate void ScoreChangedHandler(int newScore);
+    public static event ScoreChangedHandler OnScoreChanged;
+
+    public delegate void LivesChangedHandler(int newLives);
+    public static event LivesChangedHandler OnLivesChanged;
+
+    public delegate void LevelChangedHandler(int newLevel);
+    public static event LevelChangedHandler OnLevelChanged;
+
+    public delegate void HighScoreChangedHandler(int newHighScore);
+    public static event HighScoreChangedHandler OnHighScoreChanged;
 
     void Awake()
     {
@@ -33,6 +45,7 @@ public class GameController : MonoBehaviour
         if (score > highscore)
         {
             highscore = score;
+            OnHighScoreChanged?.Invoke(highscore);
         }
         UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
     }
@@ -40,11 +53,13 @@ public class GameController : MonoBehaviour
     public static void AddScore(int points)
     {
         score += points;
+        OnScoreChanged?.Invoke(score);
     }
 
     public static void LoseLife()
     {
         lives--;
+        OnLivesChanged?.Invoke(lives);
         if (lives <= 0)
         {
             GameOver();
@@ -54,6 +69,7 @@ public class GameController : MonoBehaviour
     public static void NextLevel()
     {
         level++;
+        OnLevelChanged?.Invoke(level);
         UnityEngine.SceneManagement.SceneManager.LoadScene("LevelScene");
     }
 }
