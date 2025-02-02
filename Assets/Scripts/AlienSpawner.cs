@@ -6,7 +6,9 @@ public class AlienSpawner : MonoBehaviour
 {
     [SerializeField] int rows;
     [SerializeField] int columns;
-    [SerializeField] GameObject alienPrefab;
+    [SerializeField] GameObject smallAlienPrefab;
+    [SerializeField] GameObject mediumAlienPrefab;
+    [SerializeField] GameObject largeAlienPrefab;
     AudioSource deathAudio;
 
     void Start()
@@ -21,8 +23,21 @@ public class AlienSpawner : MonoBehaviour
         {
             for (int j = 0; j < columns; j++)
             {
-                GameObject alien = Instantiate(alienPrefab, transform);
-                alien.GetComponent<AlienScript>().pointValue = 10 * (i + 1);
+                GameObject alien;
+                if (i < 2)
+                {
+
+                    alien = Instantiate(smallAlienPrefab, transform);
+                }
+                else if (i < 4)
+                {
+                    alien = Instantiate(mediumAlienPrefab, transform);
+                }
+                else
+                {
+                    alien = Instantiate(largeAlienPrefab, transform);
+                }
+
                 float xPos = Mathf.Lerp(min.x, max.x, (float)j / (columns - 1));
                 float zPos = Mathf.Lerp(min.z, max.z, (float)i / (rows - 1));
                 alien.transform.position = new Vector3(xPos, transform.position.y, zPos);

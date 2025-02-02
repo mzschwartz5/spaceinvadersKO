@@ -12,7 +12,6 @@ public class BulletScript : MonoBehaviour
 {
     public float speed = 5f;
     public BulletSourceType sourceType;
-    public Vector3 direction;
     public delegate void BulletDieHandler(GameObject bullet);
     public event BulletDieHandler OnBulletDie;
 
@@ -25,7 +24,7 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+        transform.Translate(transform.up * speed * Time.deltaTime, Space.World);
     }
 
     void Die()

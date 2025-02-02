@@ -29,7 +29,7 @@ public class ShipScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (bulletPool.FireBullet(bulletSpawnTransform.position))
+            if (bulletPool.FireBullet(bulletSpawnTransform.position, bulletSpawnTransform.rotation))
             {
                 shootAudio.Play();
             }
@@ -62,6 +62,7 @@ public class ShipScript : MonoBehaviour
         transform.position = originalPos;
         GameController.LoseLife();
         dieAudio.Play();
+        GetComponent<ParticleSystem>().Play();
     }
 
     void OnTriggerEnter(Collider collider)
