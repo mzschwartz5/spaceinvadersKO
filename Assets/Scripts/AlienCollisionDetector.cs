@@ -6,9 +6,12 @@ public class AlienCollisionDetector : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Alien")
+        if (collider.gameObject.CompareTag("Alien"))
         {
-            GameController.GameOver();
+            if (collider.gameObject.GetComponent<AlienScript>().isAlive)
+            {
+                GameController.GameOver();
+            }
         }
     }
 }

@@ -14,27 +14,40 @@ public class BulletScript : MonoBehaviour
     public BulletSourceType sourceType;
     public delegate void BulletDieHandler(GameObject bullet);
     public event BulletDieHandler OnBulletDie;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    bool isAlive = true;
 
     // Update is called once per frame
     void Update()
     {
+        if (!isAlive) return;
         transform.Translate(transform.up * speed * Time.deltaTime, Space.World);
     }
 
     void Die()
     {
+        isAlive = false;
         OnBulletDie?.Invoke(gameObject);
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<Collider>().isTrigger = false;
     }
 
+    public void Fire()
+    {
+        isAlive = true;
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Collider>().isTrigger = true;
+    }
+
+    /*
+     * Bullets start as triggers. When they "die" they become colliders and fall to the ground / interact with physics.
+     */
     void OnTriggerEnter(Collider collider)
     {
+        if (!isAlive) return; // guard against double calls
         GameObject other = collider.gameObject;
+
         if (other.CompareTag(sourceType.ToString()) || other.CompareTag("Empty"))
         {
             return;

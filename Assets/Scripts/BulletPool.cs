@@ -27,16 +27,17 @@ public class BulletPool : MonoBehaviour
         if (bulletPool.Count <= 0) return false;
 
         GameObject bullet = bulletPool.Dequeue();
+        if (bullet == null) return false;
+
+        bullet.SetActive(true);
         bullet.transform.position = spawnPos;
         bullet.transform.rotation = rotation;
-        bullet.SetActive(true);
-
+        bullet.GetComponent<BulletScript>().Fire();
         return true;
     }
 
     private void ReturnBullet(GameObject bullet)
     {
-        bullet.SetActive(false);
         bulletPool.Enqueue(bullet);
     }
 

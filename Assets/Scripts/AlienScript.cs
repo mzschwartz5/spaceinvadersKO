@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AlienScript : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class AlienScript : MonoBehaviour
     private BulletPool bulletPool;
     private Transform bulletSpawnTransform;
     private ParticleSystem particleSys;
+    [HideInInspector] public bool isAlive = true;
 
     void Start()
     {
@@ -25,6 +28,8 @@ public class AlienScript : MonoBehaviour
 
     void Update()
     {
+        if (!isAlive) return;
+
         if (Time.time - lastMoveTime < animationPeriod)
         {
             return;
@@ -39,23 +44,30 @@ public class AlienScript : MonoBehaviour
     void Die()
     {
         particleSys.Play();
-        Destroy(gameObject, particleSys.main.duration + particleSys.main.startLifetime.constant);
-        GetComponent<MeshRenderer>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<Collider>().enabled = false;
-
         transform.parent.GetComponent<AlienSpawner>().PlayDeathSound();
         GameController.AddScore(pointValue);
+        GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Collider>().isTrigger = false;
+        isAlive = false;
+        StopCoroutine(PeriodicallyFireBullet());
 
         // Check if this is the last alien in the level (Destroy marks the object for deletion, but it is not immediately removed)
         if (transform.parent.childCount <= 1)
         {
             GameController.NextLevel();
         }
+
+        transform.parent = null;
     }
+
+    /**
+     * Aliens start as triggers. When they "die" they become colliders and fall to the ground / interact with physics.
+     */
 
     void OnTriggerEnter(Collider collider)
     {
+        if (!isAlive) return;
         GameObject other = collider.gameObject;
 
         if (!other.CompareTag("Bullet"))
@@ -74,7 +86,7 @@ public class AlienScript : MonoBehaviour
 
     private IEnumerator PeriodicallyFireBullet()
     {
-        while (true)
+        while (isAlive)
         {
             float waitTime = Random.Range(2f, 5f);
             yield return new WaitForSeconds(waitTime);

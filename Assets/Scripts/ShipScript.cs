@@ -65,9 +65,9 @@ public class ShipScript : MonoBehaviour
         GetComponent<ParticleSystem>().Play();
     }
 
-    void OnTriggerEnter(Collider collider)
+    void OnCollisionEnter(Collision collision)
     {
-        GameObject other = collider.gameObject;
+        GameObject other = collision.gameObject;
 
         if (!other.CompareTag("Bullet"))
         {
