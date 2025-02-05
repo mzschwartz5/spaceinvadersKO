@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public static int lives = 3;
     public static int highscore = 0;
     public static int level;
+    public static int numUFOsHit = 0;
 
     public delegate void ScoreChangedHandler(int newScore);
     public static event ScoreChangedHandler OnScoreChanged;
@@ -55,6 +56,16 @@ public class GameController : MonoBehaviour
     {
         score += points;
         OnScoreChanged?.Invoke(score);
+    }
+
+    public static void HitUFO()
+    {
+        numUFOsHit++;
+        if (numUFOsHit % 3 == 0)
+        {
+            lives++;
+            OnLivesChanged?.Invoke(lives);
+        }
     }
 
     public static void LoseLife()

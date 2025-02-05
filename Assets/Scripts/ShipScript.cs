@@ -11,7 +11,7 @@ public class ShipScript : MonoBehaviour
     private Vector3 cameraOriginalPos;
     private AudioSource shootAudio;
     private AudioSource dieAudio;
-
+    private AudioSource shieldSound;
     void Start()
     {
         bulletPool = GetComponentInChildren<BulletPool>();
@@ -20,6 +20,7 @@ public class ShipScript : MonoBehaviour
         cameraOriginalPos = Camera.main.transform.position;
         shootAudio = GetComponents<AudioSource>()[0];
         dieAudio = GetComponents<AudioSource>()[1];
+        shieldSound = GetComponents<AudioSource>()[2];
     }
 
     void Update()
@@ -49,7 +50,7 @@ public class ShipScript : MonoBehaviour
             {
                 Camera.main.transform.rotation = Quaternion.Euler(0, 0, 0); // Forward direction is +z axis
                 Camera.main.transform.SetParent(transform); // Parent the camera to the ship
-                Camera.main.transform.localPosition = new Vector3(0, 5, -5); // Set the camera behind the ship
+                Camera.main.transform.localPosition = new Vector3(0, 5, -2); // Set the camera behind the ship
                 Vector3 lookAtPoint = transform.position + transform.forward * 10;
                 Camera.main.transform.LookAt(lookAtPoint); // Look at the ship
             }
@@ -83,6 +84,7 @@ public class ShipScript : MonoBehaviour
         {
             float duration = other.GetComponent<ShieldController>().duration;
             StartCoroutine(ActivateShield(duration));
+            shieldSound.Play();
             return;
         }
 

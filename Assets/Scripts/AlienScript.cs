@@ -50,7 +50,7 @@ public class AlienScript : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Collider>().isTrigger = false;
         isAlive = false;
-        StopCoroutine(PeriodicallyFireBullet());
+        StopAllCoroutines();
 
         // Check if this is the last alien in the level (Destroy marks the object for deletion, but it is not immediately removed)
         if (transform.parent.childCount <= 1)

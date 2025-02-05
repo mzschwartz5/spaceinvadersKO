@@ -26,6 +26,7 @@ public class UFOBehavior : MonoBehaviour
         if (other.tag == "Bullet")
         {
             GameController.AddScore(points);
+            GameController.HitUFO();
             Destroy(gameObject);
         }
     }
