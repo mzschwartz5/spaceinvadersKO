@@ -14,7 +14,7 @@ public class BulletScript : MonoBehaviour
     public BulletSourceType sourceType;
     public delegate void BulletDieHandler(GameObject bullet);
     public event BulletDieHandler OnBulletDie;
-    bool isAlive = true;
+    [HideInInspector] public bool isAlive = true;
 
     // Update is called once per frame
     void Update()

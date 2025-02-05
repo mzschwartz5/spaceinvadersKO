@@ -14,6 +14,7 @@ public class BulletPool : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab);
+            bullet.layer = (sourceType == BulletSourceType.Player) ? LayerMask.NameToLayer("PlayerBullet") : LayerMask.NameToLayer("Default");
             bullet.SetActive(false);
             BulletScript bulletScript = bullet.GetComponent<BulletScript>();
             bulletScript.sourceType = sourceType;

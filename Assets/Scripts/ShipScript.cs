@@ -65,11 +65,33 @@ public class ShipScript : MonoBehaviour
         GetComponent<ParticleSystem>().Play();
     }
 
-    void OnCollisionEnter(Collision collision)
+    IEnumerator ActivateShield(float shieldDuration)
     {
-        GameObject other = collision.gameObject;
+        Transform shield = transform.Find("PlayerShield");
+        shield.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(shieldDuration);
+
+        shield.gameObject.SetActive(false);
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        GameObject other = collider.gameObject;
+
+        if (other.CompareTag("powerup"))
+        {
+            float duration = other.GetComponent<ShieldController>().duration;
+            StartCoroutine(ActivateShield(duration));
+            return;
+        }
 
         if (!other.CompareTag("Bullet"))
+        {
+            return;
+        }
+
+        if (transform.Find("PlayerShield").gameObject.activeSelf)
         {
             return;
         }

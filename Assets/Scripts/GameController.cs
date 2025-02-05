@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(gameObject); // Keep this object alive between scenes
-        Physics.gravity = new Vector3(0, 0, -9.81f); // To accomodate view from top-down perspective, gravity is set to -9.81 in the z direction
+        Physics.gravity = new Vector3(0, 0, -20f); // To accomodate view from top-down perspective, gravity is set to -9.81 in the z direction
     }
 
     public static void Quit()
